@@ -11,9 +11,7 @@
     "url": "git+https://github.com/masterpg/lived-js-core.git"
   },
   "dependencies": {
-    "@types/chai": "^4.0.4",
     "@types/lodash": "^4.14.85",
-    "@types/mocha": "^2.2.43",
     "@types/text-encoding": "^0.0.32",
     "browser-sync": "^2.23.5",
     "lodash": "^4.17.4",
@@ -21,6 +19,8 @@
     "text-encoding": "^0.6.4"
   },
   "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.43",
     "del": "^3.0.0",
     "exec-chainable": "^0.0.3",
     "gulp": "^3.9.1",
