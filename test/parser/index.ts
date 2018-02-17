@@ -1,3 +1,4 @@
+const assert = chai.assert;
 import parser from '../../src/parser';
 
 suite('parser', () => {
@@ -134,7 +135,7 @@ suite('parser', () => {
   });
 
   test('bytesToJSON(): 正常ケース', () => {
-    const data = {first: 'taro', last: 'yamada'};
+    const data = { first: 'taro', last: 'yamada' };
     const buff = parser.textToBytes(JSON.stringify(data));
     const result = parser.bytesToJSON(buff);
     assert.equal(result['first'], 'taro');

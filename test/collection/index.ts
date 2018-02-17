@@ -1,3 +1,4 @@
+const assert = chai.assert;
 import collection from '../../src/collection';
 import utils from '../../src/utils';
 
@@ -170,7 +171,7 @@ suite('collection.List', () => {
     let prev: { id: number } = list[0];
     for (let i = 0; i < 100; i++) {
       const current = list[i];
-      expect(current.id).to.be.at.least(prev.id);
+      assert.isAtLeast(current.id, prev.id);
       prev = current;
     }
   });

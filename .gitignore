@@ -1,5 +1,4 @@
 .idea/
-bower_components/
 node_modules/
 *.log
 *.tmp
@@ -9,7 +8,7 @@ node_modules/
 /src/**/*.js
 /src/**/*.js.map
 /src/**/*.d.ts
-!/src/typings.d.ts
+!/src/types/**/*
 
 /test/**/*.js
 /test/**/*.js.map

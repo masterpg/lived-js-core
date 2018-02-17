@@ -15,6 +15,14 @@ const browserSync = require('browser-sync');
 
 //----------------------------------------------------------------------
 //
+//  Constants
+//
+//----------------------------------------------------------------------
+
+const BUNDLE_DIR_TEST = 'test';
+
+//----------------------------------------------------------------------
+//
 //  Tasks
 //
 //----------------------------------------------------------------------
@@ -45,7 +53,7 @@ gulp.task('compile',
       'node_modules/.bin/tslint -p tslint.json',
       'node_modules/.bin/tsc --project tsconfig.json --declaration',
     ],
-    {verbose: true}
+    { verbose: true }
   )
 );
 
@@ -57,7 +65,7 @@ gulp.task('build:resources', () => {
     'src/**/*.js',
     'src/**/*.d.ts',
     '!src/typings.d.ts',
-  ], {base: 'src'})
+  ], { base: 'src' })
     .pipe(gulp.dest('lib'));
 });
 
@@ -66,41 +74,72 @@ gulp.task('build:resources', () => {
 //--------------------------------------------------
 
 /**
- * 開発を行うためのタスクを起動します。
+ * 開発サーバーを立ち上げて作業するためのタスクを実行します。
  */
-gulp.task('dev', (done) => {
+gulp.task('serve', (done) => {
   return sequence(
     'clean:ts',
     [
-      'dev:bundle:test',
-      'dev:serve',
+      'serve:bundle',
+      'serve:browser-sync',
     ],
     done
   );
 });
 
 /**
- * testディレクトリのソースをバンドルします。
+ * 開発サーバーを立ち上げて作業するのに必要なソースをバンドルします。
  */
-gulp.task('dev:bundle:test', () => {
+gulp.task('serve:bundle', () => {
   return merge(
-    bundle('test')
+    bundle(BUNDLE_DIR_TEST, true)
   );
 });
 
 /**
  * 開発用のローカルサーバーを起動します。
  */
-gulp.task('dev:serve', () => {
+gulp.task('serve:browser-sync', () => {
   browserSync.init({
     port: 5000,
-    ui: {port: 5005},
+    ui: { port: 5005 },
     open: false,
     server: {
       baseDir: './',
     }
   });
 });
+
+//--------------------------------------------------
+//  単体テスト実行タスク
+//--------------------------------------------------
+
+/**
+ * 単体テストを実行します。
+ */
+gulp.task('test', (done) => {
+  return sequence(
+    'test:bundle',
+    'test:mocha-chrome',
+    done
+  );
+});
+
+/**
+ * 単体テストに必要なソースをバンドルします。
+ */
+gulp.task('test:bundle', () => {
+  return merge(
+    bundle(BUNDLE_DIR_TEST, false)
+  );
+});
+
+/**
+ * mocha-chromeで単体テストを実行します。
+ */
+gulp.task('test:mocha-chrome',
+  shell.task('./node_modules/.bin/mocha-chrome test/index.html', { verbose: true })
+);
 
 //--------------------------------------------------
 //  共通/その他
@@ -126,8 +165,9 @@ gulp.task('clean:ts', () => {
 /**
  * 指定されたディレクトリのソースをバンドルします。
  * @param directory
+ * @param watch
  */
-function bundle(directory) {
+function bundle(directory, watch) {
   return webpackStream({
     entry: {
       'index': path.join(directory, 'index'),
@@ -137,7 +177,7 @@ function bundle(directory) {
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js'],
-      plugins: [new TsconfigPathsPlugin({configFile: 'tsconfig.json'})]
+      plugins: [new TsconfigPathsPlugin({ configFile: 'tsconfig.json' })]
     },
     module: {
       rules: [
@@ -157,7 +197,7 @@ function bundle(directory) {
       ]
     },
     devtool: 'inline-source-map',
-    watch: true,
+    watch: watch,
   }, webpack)
     .pipe(gulp.dest(directory));
 }
