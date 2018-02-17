@@ -48,13 +48,10 @@ gulp.task('build', (done) => {
  * TypeScriptのコンパイルを行います。
  */
 gulp.task('compile',
-  shell.task(
-    [
-      'node_modules/.bin/tslint -p tslint.json',
-      'node_modules/.bin/tsc --project tsconfig.json --declaration',
-    ],
-    { verbose: true }
-  )
+  shell.task([
+    'node_modules/.bin/tslint -p tslint.json',
+    'node_modules/.bin/tsc --project tsconfig.json --declaration',
+  ])
 );
 
 /**
@@ -138,7 +135,7 @@ gulp.task('test:bundle', () => {
  * mocha-chromeで単体テストを実行します。
  */
 gulp.task('test:mocha-chrome',
-  shell.task('./node_modules/.bin/mocha-chrome test/index.html', { verbose: true })
+  shell.task('./node_modules/.bin/mocha-chrome test/index.html')
 );
 
 //--------------------------------------------------
@@ -152,7 +149,7 @@ gulp.task('clean:ts', () => {
   return del.sync([
     'src/**/{*.js,*.js.map,*.d.ts}',
     'test/**/{*.js,*.js.map,*.d.ts}',
-    '!**/typings.d.ts',
+    '!src/types/**/*',
   ]);
 });
 
@@ -183,8 +180,11 @@ function bundle(directory, watch) {
       rules: [
         {
           test: /\.tsx?$/,
-          // ローダーの処理対象から外すディレクトリ
-          exclude: [/node_modules/, /bower_components/],
+          enforce: 'pre',
+          loader: 'tslint-loader',
+        },
+        {
+          test: /\.tsx?$/,
           use: [{
             loader: 'ts-loader',
             options: {
@@ -193,7 +193,9 @@ function bundle(directory, watch) {
               },
             },
           }],
-        }
+          // ローダーの処理対象から外すディレクトリ
+          exclude: [/node_modules/],
+        },
       ]
     },
     devtool: 'inline-source-map',
