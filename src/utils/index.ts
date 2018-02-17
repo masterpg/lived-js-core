@@ -4,6 +4,31 @@ import parser from '../parser';
 export namespace utils {
 
   /**
+   * 指定された値がundefinedまたはnullかをチェックし、一致した場合エラーをスローします。
+   * @param value
+   */
+  export function assertEmpty(value: any): void {
+    assertUndefined(value);
+    assertNull(value);
+  }
+
+  /**
+   * 指定された値がundefinedかをチェックし、一致した場合エラーをスローします。
+   * @param value
+   */
+  export function assertUndefined(value: any): void {
+    if (value === undefined) throw new Error('Specified value is undefined.');
+  }
+
+  /**
+   * 指定された値がnullかをチェックし、一致した場合エラーをスローします。
+   * @param value
+   */
+  export function assertNull(value: any): void {
+    if (value === null) throw new Error('Specified value is null.');
+  }
+
+  /**
    * 指定された範囲の整数の乱数を生成します。
    * @param min 最小値を指定します。
    * @param max 最大値を指定します。
