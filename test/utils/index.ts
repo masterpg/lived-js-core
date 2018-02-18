@@ -1,5 +1,5 @@
 const assert = chai.assert;
-import utils from '../../src/utils';
+import * as utils from '../../src/utils';
 
 suite('utils', () => {
 

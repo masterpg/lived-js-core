@@ -1,6 +1,6 @@
 const assert = chai.assert;
-import collection from '../../src/collection';
-import utils from '../../src/utils';
+import * as collection from '../../src/collection';
+import * as utils from '../../src/utils';
 
 suite('collection.List', () => {
 
@@ -12,11 +12,11 @@ suite('collection.List', () => {
   }
 
   const persons: Person[] = [
-    {id: 2, email: 'rukawa@xxx.yyy.zzz', first: '楓', last: '流川'},
-    {id: 5, email: 'kogure@xxx.yyy.zzz', first: '公延', last: '木暮'},
-    {id: 4, email: 'haruko@xxx.yyy.zzz', first: '晴子', last: '赤木'},
-    {id: 3, email: 'gori@xxx.yyy.zzz', first: '剛憲', last: '赤木'},
-    {id: 1, email: 'sakuragi@xxx.yyy.zzz', first: '花道', last: '桜木'},
+    { id: 2, email: 'rukawa@xxx.yyy.zzz', first: '楓', last: '流川' },
+    { id: 5, email: 'kogure@xxx.yyy.zzz', first: '公延', last: '木暮' },
+    { id: 4, email: 'haruko@xxx.yyy.zzz', first: '晴子', last: '赤木' },
+    { id: 3, email: 'gori@xxx.yyy.zzz', first: '剛憲', last: '赤木' },
+    { id: 1, email: 'sakuragi@xxx.yyy.zzz', first: '花道', last: '桜木' },
   ];
 
   setup(() => {
@@ -117,7 +117,7 @@ suite('collection.List', () => {
   });
 
   test('insertItem()', () => {
-    const newItem = {id: 6, email: 'taro@xxx.yyy.zzz', first: '太郎', last: '山田'};
+    const newItem = { id: 6, email: 'taro@xxx.yyy.zzz', first: '太郎', last: '山田' };
     const list = new collection.List(persons);
     list.insertItem(1, newItem);
     assert.equal(list.length, persons.length + 1);

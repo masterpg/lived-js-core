@@ -1,5 +1,5 @@
 const assert = chai.assert;
-import parser from '../../src/parser';
+import * as parser from '../../src/parser';
 
 suite('parser', () => {
 
