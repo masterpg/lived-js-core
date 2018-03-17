@@ -162,7 +162,7 @@ suite('collection.List', () => {
     const list = new collection.List<{ id: number }>();
     for (let i = 0; i < 100; i++) {
       list.push({
-        id: utils.randomInt(1, 100)
+        id: utils.randomInt(1, 100),
       });
     }
 

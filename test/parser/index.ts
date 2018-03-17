@@ -102,14 +102,14 @@ suite('parser', () => {
 
   test('objectToQueryString(): プロパティの値にスラッシュを含んだ場合', () => {
     const actual = parser.objectToQueryString({
-      home: 'http://taro.yamada/home'
+      home: 'http://taro.yamada/home',
     });
     assert.equal(actual, 'home=http%3A%2F%2Ftaro.yamada%2Fhome');
   });
 
   test('objectToQueryString(): プロパティの値が配列の場合', () => {
     const actual = parser.objectToQueryString({
-      array: ['one', 'two', 'three']
+      array: ['one', 'two', 'three'],
     });
     assert.equal(actual, 'array=one&array=two&array=three');
   });
